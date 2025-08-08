@@ -1,0 +1,21 @@
+---
+- name: Ensure /root/idm/certs directory exists
+  file:
+    path: /root/idm/certs
+    state: directory
+    mode: '0700'
+
+- name: Generate random passwords and set fact
+  set_fact:
+    user_passwords: >-
+      {{
+        user_passwords | default({}) |
+        combine({ (item.firstname | lower) ~ "." ~ (item.lastname | lower): lookup('password', '/dev/null length=16 chars=ascii_letters,digits') })
+      }}
+  loop: "{{ users }}"
+
+- name: Process user creation and group membership
+  include_tasks: per_user.yml
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: user

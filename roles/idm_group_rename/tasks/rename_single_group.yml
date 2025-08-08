@@ -1,0 +1,12 @@
+---
+- name: Check if group '{{ rename.old }}' exists
+  command: ipa group-show {{ rename.old }}
+  register: group_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Rename group '{{ rename.old }}' to '{{ rename.new }}'
+  command: ipa group-mod {{ rename.old }} --rename={{ rename.new }}
+  when: group_check.rc == 0
+  register: rename_result
+  changed_when: "'Modified group' in rename_result.stdout"

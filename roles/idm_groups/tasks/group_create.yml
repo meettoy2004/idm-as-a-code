@@ -1,0 +1,12 @@
+---
+- name: Check if group {{ group.name }} exists
+  command: ipa group-show {{ group.name }}
+  register: check_group
+  ignore_errors: true
+  changed_when: false
+
+- name: Create group {{ group.name }} if missing
+  command: ipa group-add {{ group.name }} --desc="{{ group.description }}"
+  when: check_group.rc != 0
+  register: group_add_result
+  changed_when: "'Added group' in group_add_result.stdout"

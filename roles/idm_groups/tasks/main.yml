@@ -1,0 +1,6 @@
+---
+- name: Process each group
+  include_tasks: group_create.yml
+  loop: "{{ ipa_groups }}"
+  loop_control:
+    loop_var: group

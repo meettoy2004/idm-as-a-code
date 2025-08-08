@@ -1,0 +1,6 @@
+---
+- name: Loop through group renames
+  include_tasks: rename_single_group.yml
+  loop: "{{ ipa_group_renames }}"
+  loop_control:
+    loop_var: rename

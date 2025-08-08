@@ -1,0 +1,2 @@
+ipa_server: idm.homelab.local
+ipa_realm: HOMELAB.LOCAL

@@ -1,0 +1,41 @@
+---
+- name: Set derived vars for user
+  set_fact:
+    username: "{{ user.firstname | lower }}.{{ user.lastname | lower }}"
+    password: "{{ user_passwords[user.firstname | lower ~ '.' ~ user.lastname | lower] }}"
+    password_file_path: "/root/idm/certs/{{ user.firstname | lower }}.{{ user.lastname | lower }}.password"
+
+- name: Save password to file
+  copy:
+    dest: "{{ password_file_path }}"
+    content: "{{ password }}"
+    mode: '0600'
+
+- name: Check if user exists
+  command: ipa user-show {{ username }}
+  register: check_user
+  failed_when: false
+  changed_when: false
+
+- name: Create user in FreeIPA if not exists
+  command: >
+    ipa user-add {{ username }}
+    --first={{ user.firstname }}
+    --last={{ user.lastname }}
+    --password
+  args:
+    stdin: "{{ password }}\n{{ password }}\n"
+  when: check_user.rc != 0
+  register: user_add_result
+  changed_when: "'Added user' in user_add_result.stdout"
+
+- name: Skip creation if user exists
+  debug:
+    msg: "User {{ username }} already exists, skipping creation."
+  when: check_user.rc == 0
+
+- name: Add user to groups
+  command: ipa group-add-member {{ group }} --users={{ username }}
+  loop: "{{ user.groups }}"
+  loop_control:
+    loop_var: group

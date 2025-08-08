@@ -1,0 +1,9 @@
+ipa_group_renames:
+  - old: role_home_lab_proxmox
+    new: role_home_lab_proxmox-rename
+
+  - old: role_home_lab_openstack
+    new: role_home_lab_openstack-rename
+
+  - old: devs
+    new: role_home_lab_dev

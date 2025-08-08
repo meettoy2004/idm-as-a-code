@@ -1,0 +1,15 @@
+users:
+  - firstname: svc
+    lastname: ansible
+    groups:
+      - role_home_lab_ansible
+
+  - firstname: svc
+    lastname: idm
+    groups:
+      - role_home_lab_idm
+
+  - firstname: svc
+    lastname: grafana
+    groups:
+      - role_home_lab_idm

@@ -1,0 +1,11 @@
+---
+- name: Rename FreeIPA groups
+  hosts: localhost
+  become: true
+  gather_facts: false
+  vars_files:
+    - group_vars/vault.yml
+    - group_renames.yml
+
+  roles:
+    - idm_group_rename

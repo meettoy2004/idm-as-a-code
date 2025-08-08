@@ -1,0 +1,11 @@
+---
+- name: Create IPA users and add to groups
+  hosts: localhost
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/vault.yml
+    - users.yml
+
+  roles:
+    - idm_user

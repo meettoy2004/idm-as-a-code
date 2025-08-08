@@ -1,0 +1,21 @@
+ipa_groups:
+  - name: role_home_lab_idm
+    description: group for IDM
+
+  - name: role_home_lab_ansible
+    description: group for ansible
+
+  - name: role_home_lab_keycloak
+    description: group for keycloak
+
+  - name: role_home_lab_grafana
+    description: group for grafana
+
+  - name: role_home_lab_prometheus
+    description: group for prometheus
+
+  - name: role_home_lab_proxmox
+    description: group for proxmox
+
+  - name: role_home_lab_openstack
+    description: group for openstack
